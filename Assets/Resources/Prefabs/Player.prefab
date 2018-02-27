@@ -829,13 +829,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c60c632bf144c4da895ea39b945c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WalkSpeed: 3
+  WalkSpeed: 5
   GroundCheckPosTransform: {fileID: 4036076259743770}
   JumpForce: 12
   GroundCheckMask:
     serializedVersion: 2
     m_Bits: 1
   Object3DTransform: {fileID: 4329414758216708}
+  GroundCheckRadius: 0.2
 --- !u!137 &137306404163408690
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

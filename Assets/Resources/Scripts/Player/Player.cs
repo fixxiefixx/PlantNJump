@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
     public float JumpForce = 10f;
     public LayerMask GroundCheckMask;
     public Transform Object3DTransform;
+    public float GroundCheckRadius = 0.2f;
 
     private Rigidbody2D rigid;
     private Animator anim;
@@ -31,12 +32,21 @@ public class Player : MonoBehaviour {
 	
     private bool checkGrounded()
     {
-        if (rigid.velocity.y > 0.1f)
+        /*if (rigid.velocity.y > 0.1f)
             return false;
 
         Vector2 direction = new Vector2( GroundCheckPosTransform.position.x,GroundCheckPosTransform.position.y) - rigid.position;
 
-        return Physics2D.Raycast(rigid.position, direction, direction.magnitude,GroundCheckMask);
+        return Physics2D.Raycast(rigid.position, direction, direction.magnitude,GroundCheckMask);*/
+
+
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(GroundCheckPosTransform.position, GroundCheckRadius, GroundCheckMask);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject != gameObject)
+                return true;
+        }
+        return false;
     }
 
 	// Update is called once per frame
