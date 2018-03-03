@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
     public float TwineHangDistance = 3;
     public float TwineHangForce = 20;
     public float MaxTwineHangForce = 50;
+    public bool EasyMode = false;
 
     internal Rigidbody2D rigid;
     internal Animator anim;

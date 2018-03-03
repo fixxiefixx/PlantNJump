@@ -14,14 +14,42 @@ public class PlayerThrowTwineState : PlayerState
         cam = GameObject.FindObjectOfType<Camera>();
     }
 
+    private Transform FindNearestGrabbable()
+    {
+        Vector3 pos= cam.ScreenToWorldPoint(Input.mousePosition);
+        Collider2D[] colliders= Physics2D.OverlapCircleAll(pos, player.TwineThrowDistance,player.GrabbableCheckMask);
+        if (colliders.Length == 0)
+            return null;
+        Transform nearest = colliders[0].transform;
+        float nearestDist = (nearest.position - pos).sqrMagnitude;
+        for(int i = 1; i < colliders.Length; i++)
+        {
+            Transform testTrans = colliders[i].transform;
+            float dist= (testTrans.position - pos).sqrMagnitude;
+            if (dist < nearestDist)
+            {
+                nearest = testTrans;
+                nearestDist = dist;
+            }
+        }
+        return nearest;
+    }
+
     public override void EnterState()
     {
         for(int i = 0; i < player.twineLineRenderer.positionCount; i++)
         {
             player.twineLineRenderer.SetPosition(i, player.TwineStartPosTrans.position);
         }
-        player.twineLineRenderer.enabled = true;
+
+        if (player.EasyMode)
+        {
+            player.twineHangTrans = FindNearestGrabbable();
+        }
+
         direction = getThrowDirection();
+        player.twineLineRenderer.enabled = true;
+        
         throwTimer = 0;
 
         player.anim.Play("opening");
@@ -29,9 +57,19 @@ public class PlayerThrowTwineState : PlayerState
 
     private float getThrowDirection()
     {
-        Vector3 campos = cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 campos;
+        if (player.EasyMode && player.twineHangTrans!=null)
+        {
+            campos = player.twineHangTrans.position;
+        }
+        else
+        {
+            campos = cam.ScreenToWorldPoint(Input.mousePosition);
+        }
+        
         Vector3 startPos = player.TwineStartPosTrans.position;
-        return Mathf.Atan2(campos.x - startPos.x, campos.y - startPos.y);
+        Vector2 dir=new Vector2(campos.x - startPos.x, campos.y - startPos.y);
+        return Mathf.Atan2(dir.x, dir.y);
     }
 
     private float throwParable(float x)
@@ -59,7 +97,7 @@ public class PlayerThrowTwineState : PlayerState
         Vector3 startPos = player.TwineStartPosTrans.position;
 
         float sollDir = getThrowDirection();
-        direction = Mathf.MoveTowardsAngle(direction, sollDir, Time.deltaTime * TWINE_ROTATION_SPEED);
+        direction = Mathf.MoveTowardsAngle(direction*Mathf.Rad2Deg, sollDir*Mathf.Rad2Deg, Time.deltaTime * TWINE_ROTATION_SPEED*Mathf.Rad2Deg)*Mathf.Deg2Rad;
 
         float distance = throwParable(throwTimer / player.TwineThrowTime) * player.TwineThrowDistance;
 
