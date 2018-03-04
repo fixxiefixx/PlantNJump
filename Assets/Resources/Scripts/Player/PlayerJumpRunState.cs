@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerJumpRunState : PlayerState {
 
+
+
     public PlayerJumpRunState(GameObject go) : base(go, "jumprun")
     {
         
@@ -31,6 +33,8 @@ public class PlayerJumpRunState : PlayerState {
             }
         }
     }
+
+
 
     public void DoMovementUpdate()
     {

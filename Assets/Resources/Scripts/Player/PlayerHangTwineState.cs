@@ -21,6 +21,8 @@ public class PlayerHangTwineState : PlayerState
     public override void ExitState()
     {
         //player.twineLineRenderer.enabled = false;
+        if(player.twineHangTrans!=null)
+            player.twineHangTrans.SendMessageUpwards("OnPlayerUnhang");
     }
 
     public override void FixedUpdate()

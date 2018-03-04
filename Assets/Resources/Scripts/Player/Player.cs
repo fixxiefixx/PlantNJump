@@ -32,10 +32,16 @@ public class Player : MonoBehaviour {
     internal bool mousePressed = false;
 
     internal bool onGround = false;
+    internal Transform groundTransform = null;
     internal DXStateMachine machine = null;
     internal float horizontalMovement = 0;
     internal Transform twineHangTrans = null;
 
+
+    // Moving platform support
+    private Vector3 activeLocalPlatformPoint;
+    private Vector3 activeGlobalPlatformPoint;
+    private Vector3 lastPlatformVelocity;
 
     //States
     internal PlayerJumpRunState jumpRunState;
@@ -66,7 +72,10 @@ public class Player : MonoBehaviour {
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].gameObject != gameObject)
+            {
+                groundTransform= colliders[i].transform;
                 return true;
+            }
         }
         return false;
     }
@@ -85,8 +94,43 @@ public class Player : MonoBehaviour {
         machine.StateUpdate();
     }
 
+    private void preMovingPlatformSupport()
+    {
+        if (groundTransform != null)
+        {
+            Vector3 newGlobalPlatformPoint = groundTransform.TransformPoint(activeLocalPlatformPoint);
+            Vector3 moveDistance = (newGlobalPlatformPoint - activeGlobalPlatformPoint);
+
+            if (moveDistance != Vector3.zero)
+                transform.position = transform.position + moveDistance;
+            lastPlatformVelocity = (newGlobalPlatformPoint - activeGlobalPlatformPoint) / Time.deltaTime;
+        }
+        else
+        {
+            lastPlatformVelocity = Vector3.zero;
+        }
+        groundTransform = null;
+    }
+
+    private void postMovingPlatformSupport()
+    {
+        if (groundTransform != null)
+        {
+            activeGlobalPlatformPoint = transform.position;
+            activeLocalPlatformPoint = groundTransform.InverseTransformPoint(transform.position);
+
+
+
+        }
+        else
+        {
+            lastPlatformVelocity = Vector3.zero;
+        }
+    }
+
     private void GlobalPreFixedUpdate()
     {
+        preMovingPlatformSupport();
         horizontalMovement = Input.GetAxis("Horizontal") * WalkSpeed;
         onGround = checkGrounded();
         anim.SetBool("grounded", onGround);
@@ -121,6 +165,8 @@ public class Player : MonoBehaviour {
         //Runter gefallen?
         if (rigid.position.y < -20)
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        postMovingPlatformSupport();
     }
 
     private void FixedUpdate()

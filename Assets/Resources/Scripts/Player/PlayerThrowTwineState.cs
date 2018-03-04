@@ -111,7 +111,9 @@ public class PlayerThrowTwineState : PlayerState
         foreach(RaycastHit2D hit in hits)
         {
             player.twineHangTrans= hit.transform;
+            hit.transform.SendMessageUpwards("OnPlayerHang", SendMessageOptions.DontRequireReceiver);
             player.machine.State = player.hangTwineState;
+            break;
         }
 
         if (player.jumpPressed && player.onGround)
