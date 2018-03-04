@@ -22,7 +22,7 @@ public class PlayerHangTwineState : PlayerState
     {
         //player.twineLineRenderer.enabled = false;
         if(player.twineHangTrans!=null)
-            player.twineHangTrans.SendMessageUpwards("OnPlayerUnhang");
+            player.twineHangTrans.SendMessageUpwards("OnPlayerUnhang",SendMessageOptions.DontRequireReceiver);
     }
 
     public override void FixedUpdate()
