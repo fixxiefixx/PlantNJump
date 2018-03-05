@@ -260,7 +260,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4267204099269322, guid: 76671b96603b88f4eba622a80d1556a1, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 1.85
+      value: 2.02
       objectReference: {fileID: 0}
     - target: {fileID: 4267204099269322, guid: 76671b96603b88f4eba622a80d1556a1, type: 2}
       propertyPath: m_LocalPosition.y
@@ -290,10 +290,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 114864487452506200, guid: 76671b96603b88f4eba622a80d1556a1,
+    - target: {fileID: 114508743645640000, guid: 76671b96603b88f4eba622a80d1556a1,
         type: 2}
-      propertyPath: debugMode
-      value: 0
+      propertyPath: TwineThrowDistance
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 76671b96603b88f4eba622a80d1556a1, type: 2}
@@ -3625,7 +3625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 347096797}
-  damping: 0.5
+  damping: 0.6
   lookAheadFactor: 3
   lookAheadReturnSpeed: 0.5
   lookAheadMoveThreshold: 0.1

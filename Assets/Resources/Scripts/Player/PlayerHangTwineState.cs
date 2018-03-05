@@ -7,9 +7,9 @@ public class PlayerHangTwineState : PlayerState
 
     public PlayerHangTwineState(GameObject go) : base(go, "hangtwine")
     {
-        float p = 30f;
-        float i = 20;
-        float d = 5f;
+        float p = 100f;
+        float i = 10;
+        float d = 20f;
         pidHang = new PID(p, i, d);
     }
 
