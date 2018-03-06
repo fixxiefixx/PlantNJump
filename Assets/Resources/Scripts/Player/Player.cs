@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
     public float WalkSpeed = 3f;
     public Transform GroundCheckPosTransform;
     public float JumpForce = 10f;
+    public LayerMask DamageLayermask;
     public LayerMask GroundCheckMask;
     public LayerMask GrabbableCheckMask;
     public Transform Object3DTransform;
@@ -174,5 +175,13 @@ public class Player : MonoBehaviour {
         GlobalPreFixedUpdate();
         machine.StateFixedUpdate();
         GlobalPostFixedUpdate();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if((1<<collision.gameObject.layer & DamageLayermask.value) != 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }
