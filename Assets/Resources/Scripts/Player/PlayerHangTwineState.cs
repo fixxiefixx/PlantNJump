@@ -16,6 +16,14 @@ public class PlayerHangTwineState : PlayerState
     public override void EnterState()
     {
         pidHang.Reset();
+        Vector2 hangPos = new Vector2(player.twineHangTrans.position.x, player.twineHangTrans.position.y);
+        Vector2 diff = player.rigid.position - hangPos;
+        float dist = diff.magnitude;
+        if (dist > player.TwineHangDistance)
+        {
+            diff.Normalize();
+            player.rigid.position = hangPos + diff * player.TwineHangDistance;
+        }
     }
 
     public override void ExitState()
