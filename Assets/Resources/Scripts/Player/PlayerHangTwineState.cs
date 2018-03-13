@@ -5,6 +5,8 @@ public class PlayerHangTwineState : PlayerState
 {
     PID pidHang;
 
+    private float currentHangDistance;
+
     public PlayerHangTwineState(GameObject go) : base(go, "hangtwine")
     {
         float p = 100f;
@@ -19,11 +21,13 @@ public class PlayerHangTwineState : PlayerState
         Vector2 hangPos = new Vector2(player.twineHangTrans.position.x, player.twineHangTrans.position.y);
         Vector2 diff = player.rigid.position - hangPos;
         float dist = diff.magnitude;
-        if (dist > player.TwineHangDistance)
+        if (dist > player.TwineMaxDistance)
         {
             diff.Normalize();
-            player.rigid.position = hangPos + diff * player.TwineHangDistance;
+            player.rigid.position = hangPos + diff * player.TwineMaxDistance;
         }
+
+        currentHangDistance = Mathf.Clamp(dist, player.TwineMinDistance, player.TwineMaxDistance);
     }
 
     public override void ExitState()
@@ -41,14 +45,24 @@ public class PlayerHangTwineState : PlayerState
             player.machine.State = player.jumpRunState;
             return;
         }
+
         
 
+        
         
 
         Vector2 diff = player.rigid.position - new Vector2(player.twineHangTrans.position.x, player.twineHangTrans.position.y);
 
         Vector2 moveVec = Vector2Extension.Rotate(diff, 90);
         moveVec.Normalize();
+
+        float hangChange = Input.GetAxis("Vertical") * player.TwineClimbSpeed * Time.deltaTime;
+        if (diff.y > 0)
+            currentHangDistance += hangChange;
+        else
+            currentHangDistance -= hangChange;
+
+        currentHangDistance = Mathf.Clamp(currentHangDistance, player.TwineMinDistance, player.TwineMaxDistance);
 
         float horMove = diff.y > 0 ? -player.horizontalMovement : player.horizontalMovement;
 
@@ -71,11 +85,11 @@ public class PlayerHangTwineState : PlayerState
         //if (dist > player.TwineHangDistance)
         {
             //float a = (player.TwineHangDistance - dist);
-            float twineForce = pidHang.Update(player.TwineHangDistance, dist, Time.deltaTime);
+            float twineForce = pidHang.Update(currentHangDistance, dist, Time.deltaTime);
 
             if (twineForce > player.MaxTwineHangForce)
                 twineForce = player.MaxTwineHangForce;
-            if (dist > player.TwineThrowDistance+3)
+            if (dist > player.TwineMaxDistance+3)
             {
                 player.rigid.velocity = new Vector2(0, 0);
             }

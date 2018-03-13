@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
-    public float WalkSpeed = 3f;
+    public float MaxWalkSpeed = 3f;
+    public float GroundAcceleration = 35f;
+    public float AirAcceleration = 5;
     public Transform GroundCheckPosTransform;
     public float JumpForce = 10f;
     public LayerMask DamageLayermask;
@@ -15,11 +17,12 @@ public class Player : MonoBehaviour {
     public float GroundCheckRadius = 0.2f;
     public Transform TwineStartPosTrans;
     public float TwineThrowTime = 0.5f;
-    public float TwineThrowDistance = 5;
-    public float TwineHangDistance = 3;
+    public float TwineMaxDistance = 5;
+    public float TwineMinDistance = 3;
     public float TwineHangForce = 20;
     public float MaxTwineHangForce = 50;
     public bool EasyMode = false;
+    public float TwineClimbSpeed = 1f;
 
     internal Rigidbody2D rigid;
     internal Animator anim;
@@ -132,7 +135,7 @@ public class Player : MonoBehaviour {
     private void GlobalPreFixedUpdate()
     {
         preMovingPlatformSupport();
-        horizontalMovement = Input.GetAxis("Horizontal") * WalkSpeed;
+        horizontalMovement = Input.GetAxis("Horizontal") * MaxWalkSpeed;
         onGround = checkGrounded();
         anim.SetBool("grounded", onGround);
 

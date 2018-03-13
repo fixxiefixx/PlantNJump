@@ -17,7 +17,7 @@ public class PlayerThrowTwineState : PlayerState
     private Transform FindNearestGrabbable()
     {
         Vector3 pos= cam.ScreenToWorldPoint(Input.mousePosition);
-        Collider2D[] colliders= Physics2D.OverlapCircleAll(pos, player.TwineThrowDistance,player.GrabbableCheckMask);
+        Collider2D[] colliders= Physics2D.OverlapCircleAll(pos, player.TwineMaxDistance,player.GrabbableCheckMask);
         if (colliders.Length == 0)
             return null;
         Transform nearest = colliders[0].transform;
@@ -99,7 +99,7 @@ public class PlayerThrowTwineState : PlayerState
         float sollDir = getThrowDirection();
         direction = Mathf.MoveTowardsAngle(direction*Mathf.Rad2Deg, sollDir*Mathf.Rad2Deg, Time.deltaTime * TWINE_ROTATION_SPEED*Mathf.Rad2Deg)*Mathf.Deg2Rad;
 
-        float distance = throwParable(throwTimer / player.TwineThrowTime) * player.TwineThrowDistance;
+        float distance = throwParable(throwTimer / player.TwineThrowTime) * player.TwineMaxDistance;
 
         Vector3 dirVec = new Vector3(Mathf.Sin(direction)*distance, Mathf.Cos(direction)*distance);
 

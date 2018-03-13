@@ -38,7 +38,7 @@ public class PlayerJumpRunState : PlayerState {
 
     public void DoMovementUpdate()
     {
-        player.rigid.velocity = new Vector2(Mathf.MoveTowards(player.rigid.velocity.x, player.horizontalMovement, Time.deltaTime *(player.onGround? 35f:5f)), player.rigid.velocity.y);
+        player.rigid.velocity = new Vector2(Mathf.MoveTowards(player.rigid.velocity.x, player.horizontalMovement, Time.deltaTime *(player.onGround? player.GroundAcceleration:player.AirAcceleration)), player.rigid.velocity.y);
     }
 
     public override void FixedUpdate()
