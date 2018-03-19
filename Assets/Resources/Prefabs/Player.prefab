@@ -524,7 +524,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1361023981686702}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.972798, y: -8.244709, z: 0}
+  m_LocalPosition: {x: 44.4, y: 19.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4329414758216708}
@@ -884,6 +884,9 @@ MonoBehaviour:
   MaxTwineHangForce: 100
   EasyMode: 1
   TwineClimbSpeed: 3
+  PlantExplosionPrefab: {fileID: 1636359021296510, guid: ee0f2a5427ecd6b45bf64d4f68988d43,
+    type: 2}
+  VisibleObject: {fileID: 1681197567448700}
 --- !u!114 &114864487452506200
 MonoBehaviour:
   m_ObjectHideFlags: 1

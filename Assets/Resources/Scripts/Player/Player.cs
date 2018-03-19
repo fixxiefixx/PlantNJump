@@ -23,6 +23,8 @@ public class Player : MonoBehaviour {
     public float MaxTwineHangForce = 50;
     public bool EasyMode = false;
     public float TwineClimbSpeed = 1f;
+    public GameObject PlantExplosionPrefab;
+    public GameObject VisibleObject;
 
     internal Rigidbody2D rigid;
     internal Animator anim;
@@ -51,12 +53,14 @@ public class Player : MonoBehaviour {
     internal PlayerJumpRunState jumpRunState;
     internal PlayerThrowTwineState throwTwineState;
     internal PlayerHangTwineState hangTwineState;
+    internal PlayerExplosionState explosionState;
 
     private void initStates()
     {
         jumpRunState = new PlayerJumpRunState(gameObject);
         throwTwineState = new PlayerThrowTwineState(gameObject);
         hangTwineState = new PlayerHangTwineState(gameObject);
+        explosionState = new PlayerExplosionState(gameObject);
     }
 
 	// Use this for initialization
@@ -134,6 +138,9 @@ public class Player : MonoBehaviour {
 
     private void GlobalPreFixedUpdate()
     {
+        if (machine.State == explosionState)
+            return;
+
         preMovingPlatformSupport();
         horizontalMovement = Input.GetAxis("Horizontal") * MaxWalkSpeed;
         onGround = checkGrounded();
@@ -163,12 +170,21 @@ public class Player : MonoBehaviour {
 
     private void GlobalPostFixedUpdate()
     {
+        if (machine.State == explosionState)
+            return;
+
         jumpPressed = false;
         mousePressed = false;
 
         //Runter gefallen?
         if (rigid.position.y < -20)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        {
+            Camera cam = Camera.allCameras[0];
+            transform.position = new Vector3(transform.position.x, cam.transform.position.y - cam.orthographicSize,transform.position.z-1.5f);
+            //rigid.position =new Vector2(rigid.position.x, cam.transform.position.y - cam.orthographicSize);
+            machine.State = explosionState;
+
+        }
 
         postMovingPlatformSupport();
     }
@@ -182,9 +198,12 @@ public class Player : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (machine.State == explosionState)
+            return;
+
         if((1<<collision.gameObject.layer & DamageLayermask.value) != 0)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            machine.State = explosionState;
         }
     }
 }
