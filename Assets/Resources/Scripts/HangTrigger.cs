@@ -10,7 +10,7 @@ public class HangTrigger : MonoBehaviour {
     {
         if (ObjectToTrigger != null)
         {
-            ObjectToTrigger.SendMessage("OnPlayerHang", SendMessageOptions.DontRequireReceiver);
+            ObjectToTrigger.SendMessage("OnTrigger", SendMessageOptions.DontRequireReceiver);
         }
     }
 
@@ -18,7 +18,7 @@ public class HangTrigger : MonoBehaviour {
     {
         if (ObjectToTrigger != null)
         {
-            ObjectToTrigger.SendMessage("OnPlayerUnhang", SendMessageOptions.DontRequireReceiver);
+            ObjectToTrigger.SendMessage("OnUnTrigger", SendMessageOptions.DontRequireReceiver);
         }
     }
 }

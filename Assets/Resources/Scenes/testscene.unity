@@ -539,6 +539,7 @@ MonoBehaviour:
   targetpos: {fileID: 784200607}
   Speed: 5
   TriggerOnPlayerHang: 1
+  AlwaysMoving: 0
 --- !u!212 &624731635
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5657,7 +5658,7 @@ Tilemap:
   - serializedVersion: 1
     m_DirtyIndex: 0
   - serializedVersion: 1
-    m_DirtyIndex: 0
+    m_DirtyIndex: 14
 --- !u!19719996 &672696125
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -6938,6 +6939,7 @@ MonoBehaviour:
   targetpos: {fileID: 1501120170}
   Speed: 2
   TriggerOnPlayerHang: 0
+  AlwaysMoving: 1
 --- !u!212 &1252731859
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7366,7 +7368,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1545722764}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 48.88, y: 15.91, z: 0}
+  m_LocalPosition: {x: 48.88, y: 15.91, z: 19.6}
   m_LocalScale: {x: 95.00708, y: 35.76164, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -7429,6 +7431,7 @@ MonoBehaviour:
   targetpos: {fileID: 1834554266}
   Speed: 5
   TriggerOnPlayerHang: 1
+  AlwaysMoving: 0
 --- !u!212 &1551375812
 SpriteRenderer:
   m_ObjectHideFlags: 0

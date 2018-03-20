@@ -67,7 +67,7 @@ public class VerticalDoor : MonoBehaviour {
         opening = false;
     }
 
-    void OnPlayerHang()
+    void OnTrigger()
     {
         if (OpenAtStart)
         {
@@ -79,7 +79,7 @@ public class VerticalDoor : MonoBehaviour {
         }
     }
 
-    void OnPlayerUnhang()
+    void OnUnTrigger()
     {
         if (OpenAtStart)
         {
